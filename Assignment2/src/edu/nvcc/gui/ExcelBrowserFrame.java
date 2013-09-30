@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import edu.nvcc.utils.ReadExcel;
 
@@ -33,8 +34,13 @@ public class ExcelBrowserFrame extends JFrame implements ActionListener {
 			   System.out.println(path);
 			try {
 				new ReadExcel(path);
-				new MainFrame(); 
-				setVisible(false);
+				openButton.setVisible(false);
+				//new NewJPanel();
+				//new MainFrame(); 
+				//setVisible(false);
+				NewJPanel jPanel1 = new NewJPanel();
+				getContentPane().add(jPanel1);				
+				//jPanel1.setVisible(false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

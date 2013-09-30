@@ -78,7 +78,7 @@ public  class MainFrame extends JFrame implements ActionListener{
 				orderButton = new JButton();
 				getContentPane().add(orderButton);
 				orderButton.setText("Order");
-				orderButton.setBounds(282, 295, 150, 50);
+				orderButton.setBounds(294, 302, 150, 50);
 				orderButton.addActionListener(this);
 			}
 			pack();
