@@ -8,4 +8,8 @@ public interface LinkedListInterface<T> {
 	public boolean isEmpty();
 	public void remove(String element);	
 	public T search(String element);
+	
+	public T showlist(int index);
+	public int size();
+	
 }

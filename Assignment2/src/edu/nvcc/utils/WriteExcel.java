@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 
 import edu.nvcc.gui.*;
+import edu.nvcc.pos.FoodItem;
+import edu.nvcc.pos.ItemList;
 
 import org.apache.poi.hssf.record.formula.functions.Row;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -12,29 +14,25 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 
 public class WriteExcel {
+	HSSFWorkbook workbook = new HSSFWorkbook();
+	HSSFSheet sheet = workbook.createSheet("Sample sheet");
+	Map<Integer, Object[]> data = new HashMap<Integer, Object[]>();
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("Sample sheet");
-		 
-		Map<String, Object[]> data = new HashMap<String, Object[]>();
-		data.put("1", new Object[] {"Emp No.", "Name", "Salary"});
-		data.put("2", new Object[] {1d, "John", 1500000d});
-		data.put("3", new Object[] {2d, "Sam", 800000d});
-		data.put("4", new Object[] {3d, "Dean", 700000d});
-		 
-		Set<String> keyset = data.keySet();
+
+	public void WriteExcelFile(ItemList fi) {
+		for(int i = 0; i<fi.size(); i++){
+		data.put(i, new Object[] {((FoodItem) fi.showlist(i)).getName(),((FoodItem) fi.showlist(i)).getPrice(),((FoodItem) fi.showlist(i)).getQuantity(),
+									((FoodItem) fi.showlist(i)).getDescription(),((FoodItem) fi.showlist(i)).getSize(),((FoodItem) fi.showlist(i)).getCategory()});
+		}
+		Set<Integer> keyset = data.keySet();
 		int rownum = 0;
-		for (String key : keyset) {
-		    HSSFRow row = sheet.createRow(rownum++);
-		    Object [] objArr = data.get(key);
-		    int cellnum = 0;
-		    for (Object obj : objArr) {
-		        Cell cell = row.createCell(cellnum++);
-		        if(obj instanceof Date) 
+		for (Integer key : keyset) {
+			HSSFRow row = sheet.createRow(rownum++);
+			Object [] objArr = data.get(key);
+			int cellnum = 0;
+			for (Object obj : objArr) {
+				Cell cell = row.createCell(cellnum++);
+				 if(obj instanceof Date) 
 		            cell.setCellValue((Date)obj);
 		        else if(obj instanceof Boolean)
 		            cell.setCellValue((Boolean)obj);
@@ -42,12 +40,15 @@ public class WriteExcel {
 		            cell.setCellValue((String)obj);
 		        else if(obj instanceof Double)
 		            cell.setCellValue((Double)obj);
-		    }
+		        else if(obj instanceof Integer)
+		        	cell.setCellValue((Integer)obj);		     
+				
+			}
+
 		}
-		 
 		try {
 		    FileOutputStream out = 
-		            new FileOutputStream(new File("C:\\Users\\jeongho\\Documents\\노바\\2013 Fall\\CSC 202\\Assignment2\\Files\\new.xls"));
+		            new FileOutputStream(new File("C:\\Users\\jeongho\\Documents\\노바\\2013 Fall\\CSC 202\\Assignment2\\Files\\FoodInformation.xls"));
 		    workbook.write(out);
 		    out.close();
 		    System.out.println("Excel written successfully..");
@@ -57,5 +58,6 @@ public class WriteExcel {
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
+		
 	}
 }

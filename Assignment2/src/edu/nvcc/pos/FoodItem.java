@@ -14,7 +14,7 @@ public class FoodItem implements Serializable {
 	int quantity;
 	String description;
 	String size;
-	boolean specialOrder;
+	String category;
 
 	public FoodItem() {
 		super();
@@ -22,14 +22,14 @@ public class FoodItem implements Serializable {
 	}
 
 	public FoodItem(String name, double price, int quantity,
-			String description, String size, boolean specialOrder) {
+			String description, String size, String category) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 		this.description = description;
 		this.size = size;
-		this.specialOrder = specialOrder;
+		this.category = category;
 	}
 
 	public String getName() {
@@ -62,18 +62,17 @@ public class FoodItem implements Serializable {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public boolean isSpecialOrder() {
-		return specialOrder;
+	public String getCategory() {
+		return category;
 	}
-	public void setSpecialOrder(boolean specialOrder) {
-		this.specialOrder = specialOrder;
+	public void setSpecialOrder(String category) {
+		this.category = category;
 	}
 
 	@Override
 	public String toString() {
-		return "FoodItem [name=" + name + ", price=" + price + ", quantity="
-				+ quantity + ", description=" + description + ", size=" + size
-				+ ", specialOrder=" + specialOrder + "]";
+		return "Name = "+name+"\n"+"Price = "+price+"\n"+"Quantity = "+quantity+"\n"+"Description = "+description+"\n"
+				+"Size = "+size+"\n"+"Category = "+category;
 	}
 
 }

@@ -10,16 +10,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.poi.hssf.record.formula.functions.T;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 
+import edu.nvcc.pos.CategoryList;
 import edu.nvcc.pos.FoodItem;
+import edu.nvcc.pos.ItemList;
 
 public class ReadExcel {
-	 private ArrayList<FoodItem> fiarray = new ArrayList<FoodItem>();
+	ItemList<FoodItem> foodList = new ItemList<FoodItem>();
+	CategoryList<String> categoryList = new CategoryList<String>();
 	@SuppressWarnings({ "unchecked", "unchecked" })
 	public ReadExcel(String path) throws Exception {
 		// An excel file name. You can create a file name with a full
@@ -77,9 +81,6 @@ public class ReadExcel {
 
 		showExcelData(sheetData);
 	}
-	public FoodItem getFoodItem(int i){
-		return getFiarray().get(i);
-	}
 	private void showExcelData(List sheetData) {
 		//
 		// Iterates the data and print it out to the console.
@@ -89,7 +90,7 @@ public class ReadExcel {
 		int quantity=0;
 		String description="";
 		String size="";
-		boolean specialorder=false; 
+		String category=""; 
 	
 		for(int i=1; i < sheetData.size(); i++) 
 		{
@@ -119,22 +120,31 @@ public class ReadExcel {
 				}if(j==5)
 				{
 					Cell cell = (Cell) list.get(j);
-					specialorder = cell.getBooleanCellValue();
+					category = cell.getStringCellValue();
 				}
 				
 			}
 			
 					
-			getFiarray().add(new FoodItem(name,price,quantity,description,size,specialorder));
-
+			getFoodList().add(new FoodItem(name,price,quantity,description,size,category));
+			if(!getMenuList().contains(category))
+			{
+				getMenuList().add(category);
+			}
 		}
 		
-		
+		System.out.println(getMenuList());
 	}
-	public ArrayList<FoodItem> getFiarray() {
-		return fiarray;
+	public CategoryList<String> getMenuList(){
+		return categoryList;
 	}
-	public void setFiarray(ArrayList<FoodItem> fiarray) {
-		this.fiarray = fiarray;
+	public void setcategoryarray(CategoryList<String> categoryList) {
+		this.categoryList = categoryList;
+	}
+	public ItemList<FoodItem> getFoodList() {
+		return foodList;
+	}
+	public void setFiarray(ItemList<FoodItem> foodList) {
+		this.foodList = foodList;
 	}
 }

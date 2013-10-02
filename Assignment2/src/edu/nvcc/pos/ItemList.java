@@ -7,6 +7,7 @@ import java.util.Scanner;
 import edu.nvcc.pos.LinkedListInterface;
 import edu.nvcc.pos.ItemNode;
 
+
 public class ItemList<T> implements LinkedListInterface<T>
 {
 
@@ -42,12 +43,7 @@ public class ItemList<T> implements LinkedListInterface<T>
 					found = true;
 					//size--;
 				}else {
-					/*if (current == this.previous)
-					{
-						this.previous =previous;
-					}else if (this.current ==current) {
-						this.current =previous;
-					}*/
+					
 					previous.setLink(current.getLink());
 					found = true;
 					//size--;
@@ -97,7 +93,25 @@ public class ItemList<T> implements LinkedListInterface<T>
 		}
 		return out;
 	}
+	public int size(){
+		int size = 0;
+		ItemNode<T> current = list;
+		while (current != null) {
+			
+			current = current.getLink();
+			size++;
+		}
+		return size;
+		
+	}
+	public T showlist(int index){
+		ItemNode<T> current = list;	
 
+		for(int i = 0; i < index; i++){
+			current = current.getLink();
+		}
+		return current.getElement();				
+	}
 	public T search(String element) {
 		
 		ItemNode<T> current = list;

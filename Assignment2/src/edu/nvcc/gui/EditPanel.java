@@ -3,14 +3,16 @@ package edu.nvcc.gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JButton;
-
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import javax.swing.JFrame;
 
 import edu.nvcc.pos.FoodItem;
-import edu.nvcc.utils.ReadExcel;
 import edu.nvcc.utils.WriteExcel;
 
 
@@ -26,10 +28,11 @@ import edu.nvcc.utils.WriteExcel;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class AddPanel extends JPanel implements ActionListener{
+public class EditPanel extends JPanel implements ActionListener {
 	private JButton jButton1;
 	private JLabel addLabel;
 	private JLabel priceLabel;
+	private JButton searchButton;
 	private JTextField categoryField;
 	private JLabel categoryLabel;
 	private JTextArea ItemStatusArea;
@@ -51,14 +54,14 @@ public class AddPanel extends JPanel implements ActionListener{
 	* JPanel inside a new JFrame.
 	*/
 		
-	AddPanel() {
+	EditPanel() {
 		try {
 			this.setPreferredSize(new java.awt.Dimension(1000, 800));
 			this.setLayout(null);
 			{
 				addLabel = new JLabel();
 				this.add(addLabel);
-				addLabel.setText("Add Food Item");
+				addLabel.setText("Edit Food Item");
 				addLabel.setBounds(363, 3, 429, 88);
 				addLabel.setFont(new java.awt.Font("Segoe UI",0,36));
 			}
@@ -133,14 +136,15 @@ public class AddPanel extends JPanel implements ActionListener{
 			{
 				addFoodButton = new JButton();
 				this.add(addFoodButton);
-				addFoodButton.setText("Add");
-				addFoodButton.setBounds(682, 520, 121, 50);
+				addFoodButton.setText("Edit");
+				addFoodButton.setBounds(776, 515, 121, 50);
+				addFoodButton.setFont(new java.awt.Font("Segoe UI",0,20));
 				addFoodButton.addActionListener(this);
 			}
 			{
 				ItemStatusArea = new JTextArea();
 				this.add(ItemStatusArea);
-				ItemStatusArea.setBounds(653, 206, 292, 231);
+				ItemStatusArea.setBounds(711, 206, 234, 231);
 			}
 			{
 				categoryLabel = new JLabel();
@@ -153,6 +157,14 @@ public class AddPanel extends JPanel implements ActionListener{
 				categoryField = new JTextField();
 				this.add(categoryField);
 				categoryField.setBounds(307, 515, 295, 46);
+			}
+			{
+				searchButton = new JButton();
+				this.add(searchButton);
+				searchButton.setText("Search");
+				searchButton.setBounds(613, 206, 79, 38);
+				searchButton.setFont(new java.awt.Font("Segoe UI",0,20));
+				searchButton.addActionListener(this);
 			}
 
 		} catch (Exception e) {
@@ -167,21 +179,25 @@ public class AddPanel extends JPanel implements ActionListener{
 			   
 			   POSFrame.mainpanel();
 		}
-		if(event.getActionCommand().equals("Add")){
+		if(event.getActionCommand().equals("Edit")){
 			//String name = getNameField();
-			FoodItem addfi = new FoodItem(getNameField(),getPriceField(),getQuantityField(),getDescriptionField(),getSizeField(),getCategory());
-			ReadPanel.restaurant.getFoodList().add(addfi);
+			FoodItem editfi = new FoodItem(getNameField(),getPriceField(),getQuantityField(),getDescriptionField(),getSizeField(),getCategory());
+			ReadPanel.restaurant.getFoodList().add(editfi);
 			we.WriteExcelFile(ReadPanel.restaurant.getFoodList());
-			ItemStatusArea.setText("Item Added on List");
-			ItemStatusArea.setText(addfi.toString());
-			nameField.setText("");
-			priceField.setText("");
-			quantityField.setText("");
-			descriptionField.setText("");
-			categoryField.setText("");
-			sizeField.setText("");
+			ItemStatusArea.setText("Item Edited on List");
+			ItemStatusArea.setText(editfi.toString());
 			
 			}
+		if(event.getActionCommand().equals("Search")){
+			FoodItem editfi = (ReadPanel.restaurant.getFoodList().search(getNameField()));
+			nameField.setText(editfi.getName());
+			priceField.setText(Double.toString(editfi.getPrice()));
+			quantityField.setText(Integer.toString(editfi.getQuantity()));
+			descriptionField.setText(editfi.getDescription());
+			sizeField.setText(editfi.getSize());
+			categoryField.setText(editfi.getCategory());
+			ReadPanel.restaurant.getFoodList().remove(getNameField());
+		}
 	}
 	private String getCategory() {
 		// TODO Auto-generated method stub
